@@ -61,14 +61,14 @@ document.querySelector(".products-grid").innerHTML = productsHTML;
 let TimerId;
 
 import { addToCart } from "../data/cart.js";
+import { calculateQuantity } from "../data/cart.js";
+
+if (calculateQuantity() !== 0) {
+  document.querySelector(".js-cart-quantity").innerHTML = calculateQuantity();
+} else document.querySelector(".js-cart-quantity").innerHTML = "";
 
 function updateCartQuantity(productId) {
-  let totalQuantity = 0;
-
-  cart.forEach((cartItem) => {
-    totalQuantity += parseInt(cartItem.quantity, 10);
-  });
-  document.querySelector(".js-cart-quantity").innerHTML = totalQuantity;
+  document.querySelector(".js-cart-quantity").innerHTML = calculateQuantity();
   // console.log(totalQuantity);
   // console.log(cart);
 
