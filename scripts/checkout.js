@@ -82,6 +82,10 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
   let html = "";
   deliveryOptions.forEach((deliveryOption) => {
     const today = dayjs();
+    if (!deliveryOption) {
+      console.error("Invalid delivery option for cart item:", cartItem);
+      return;
+    }
     const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
     const dateString = deliveryDate.format("dddd, MMMM D");
 

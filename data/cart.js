@@ -46,6 +46,7 @@ export function addToCart(productId) {
       quantity: Number(
         document.querySelector(`.js-quantity-selector-${productId}`).value,
       ),
+      deliveryOptionId: "1",
     });
   }
   saveToStorage();
