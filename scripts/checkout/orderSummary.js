@@ -10,14 +10,9 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 export function renderOrderSummary() {
-  const today = dayjs();
-  console.log(today);
-  const deliveryDate = today.add(7, "days");
-  console.log(deliveryDate);
-  console.log(deliveryDate.format("dddd, MMMM D"));
-
   let cartSummaryHTML = "";
 
   cart.forEach((cartItem) => {
@@ -124,7 +119,12 @@ export function renderOrderSummary() {
       const productId = link.dataset.productId;
       removeFromCart(productId);
 
-      document.querySelector(`.js-cart-item-container-${productId}`).remove();
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`,
+      );
+      container.remove();
+
+      renderPaymentSummary();
 
       document.querySelector(".return-to-home-link").innerHTML =
         calculateQuantity();
@@ -148,11 +148,14 @@ export function renderOrderSummary() {
 
       document.querySelector(".return-to-home-link").innerHTML =
         calculateQuantity();
+
+      renderPaymentSummary();
     });
   });
 
   document.querySelector(".return-to-home-link").innerHTML =
     calculateQuantity();
+
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {
       const { productId, deliveryOptionId } = element.dataset;
@@ -161,6 +164,7 @@ export function renderOrderSummary() {
       //const deliveryOptionId=element.dataset.productId;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
