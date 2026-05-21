@@ -9,10 +9,12 @@ import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import {
   deliveryOptions,
   getDeliveryOption,
+  calculateDeliveryDate,
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 
-export function renderOrderSummary() {
+export function renderOrderSummary() 
+{
   let cartSummaryHTML = "";
 
   cart.forEach((cartItem) => {
@@ -22,15 +24,12 @@ export function renderOrderSummary() {
     const deliveryOptionId = cartItem.deliveryOptionId;
 
     const deliveryOption = getDeliveryOption(deliveryOptionId);
-
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-    const dateString = deliveryDate.format("dddd, MMMM D");
+    const dateString = calculateDeliveryDate(deliveryOption.deliveryDays);
 
     cartSummaryHTML += `<div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
             
               <div class="delivery-date">
-                Delivery date: ${dateString}
+                Delivery date: ${dateString.format("dddd, MMMM D")}
               </div>
 
               <div class="cart-item-details-grid">
@@ -75,7 +74,7 @@ export function renderOrderSummary() {
         console.error("Invalid delivery option for cart item:", cartItem);
         return;
       }
-      const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
+      const deliveryDate = calculateDeliveryDate(deliveryOption.deliveryDays);
       const dateString = deliveryDate.format("dddd, MMMM D");
 
       const priceString = deliveryOption.priceCents
@@ -119,15 +118,12 @@ export function renderOrderSummary() {
       const productId = link.dataset.productId;
       removeFromCart(productId);
 
-      const container = document.querySelector(
-        `.js-cart-item-container-${productId}`,
-      );
-      container.remove();
+      renderOrderSummary();
 
       renderPaymentSummary();
 
       document.querySelector(".return-to-home-link").innerHTML =
-        calculateQuantity();
+        `${calculateQuantity()} item`;
     });
   });
 
@@ -147,14 +143,14 @@ export function renderOrderSummary() {
       container.classList.remove("is-editing-quantity");
 
       document.querySelector(".return-to-home-link").innerHTML =
-        calculateQuantity();
+        `${calculateQuantity()} item`;
 
       renderPaymentSummary();
     });
   });
 
   document.querySelector(".return-to-home-link").innerHTML =
-    calculateQuantity();
+    `${calculateQuantity()} item`;
 
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {

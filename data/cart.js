@@ -15,7 +15,8 @@ if (!cart) {
   ];
 }
 
-export function calculateQuantity() {
+export function calculateQuantity() 
+{
   let totalQuantity = 0;
 
   cart.forEach((cartItem) => {
@@ -25,11 +26,13 @@ export function calculateQuantity() {
   return totalQuantity;
 }
 
-function saveToStorage() {
+function saveToStorage() 
+{
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-export function addToCart(productId) {
+export function addToCart(productId) 
+{
   let matchingItem = 0;
   cart.forEach((cartItem) => {
     if (cartItem.productId === productId) {
