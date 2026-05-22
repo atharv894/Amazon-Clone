@@ -8,7 +8,7 @@ class Cart
         this.#loadFromStorage();
     }
 
-    #loadFromStorage() 
+    #loadFromStorage()  //private function
     {
         this.cartItems== JSON.parse(localStorage.getItem(this.#localStorageKey));
         
